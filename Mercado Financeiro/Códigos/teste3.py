@@ -43,8 +43,9 @@ def LegendaPercentual():
 # teste1 = []
 # teste2 = []
 
-
-carteira = read_csv('CarteiraGabriel.csv', delimiter='\t')
+caminho1 = '/home/gabriel/Github/gabrielnrt/Testes/'+'Mercado Financeiro'+'/Arquivos/'+'CarteiraGabriel.csv'
+# carteira = read_csv('CarteiraGabriel.csv', delimiter='\t')
+carteira = read_csv(caminho1, delimiter='\t')
 carteira['Data da Aplicação'] = to_datetime(carteira['Data da Aplicação'], dayfirst=True)
 
 
@@ -70,7 +71,8 @@ for k in carteira.index:
     for arquivo in ListaDeArquivos:
         if chave == arquivo:
 
-            ativo = read_csv(arquivo, delimiter=',', usecols=['Date', 'Close'])
+            caminho2 = '/home/gabriel/Github/gabrielnrt/Testes/'+'Mercado Financeiro'+'/Arquivos/'+chave
+            ativo = read_csv(caminho2, delimiter=',', usecols=['Date', 'Close'])
             ativo['Date'] = to_datetime(ativo['Date'], yearfirst=True)
 
             #(É AQUI QUE A SELEÇÃO DAS DATAS VAI ENTRAR)
@@ -125,7 +127,8 @@ for k in carteira.index:
     for arquivo in ListaDeArquivos:
         if chave == arquivo:
 
-            ativo = read_csv(arquivo, delimiter=',', usecols=['Date', 'Close'])
+            caminho2 = '/home/gabriel/Github/gabrielnrt/Testes/'+'Mercado Financeiro'+'/Arquivos/'+chave
+            ativo = read_csv(caminho2, delimiter=',', usecols=['Date', 'Close'])
             ativo['Date'] = to_datetime(ativo['Date'], yearfirst=True)
 
             #(É AQUI QUE A SELEÇÃO DAS DATAS VAI ENTRAR)
