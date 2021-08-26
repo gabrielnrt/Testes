@@ -43,14 +43,26 @@ def LegendaPercentual():
 # teste1 = []
 # teste2 = []
 
-caminho1 = '/home/gabriel/Github/gabrielnrt/Testes/'+'Mercado Financeiro'+'/Arquivos/'+'CarteiraGabriel.csv'
-# carteira = read_csv('CarteiraGabriel.csv', delimiter='\t')
+print('Para Gabriel, digite 1 \nPara Carolina, digite 2')
+digito = int(input())
+if digito==1:
+    pessoa = 'CarteiraGabriel.csv'
+else:
+    pessoa = 'CarteiraCarolina.csv'
+
+
+
+caminho1 = '/home/gabriel/Github/gabrielnrt/Testes/'+'Mercado Financeiro'+'/Arquivos/'+pessoa
+
 carteira = read_csv(caminho1, delimiter='\t')
 carteira['Data da Aplicação'] = to_datetime(carteira['Data da Aplicação'], dayfirst=True)
 
 
 
-ListaDeArquivos = ['ITSA4.SA.csv', 'SANB11.SA.csv', 'ITUB4.SA.csv', 'WEGE3.SA.csv']
+ListaDeArquivos = ['ITSA4.SA.csv', 'SANB11.SA.csv', 'ITUB4.SA.csv', 'WEGE3.SA.csv', 'AZUL4.SA.csv', 'CPLE6.SA.csv','MELI34.SA.csv','SUZB3.SA.csv']
+
+
+
 
 figura, eixos = subplots(constrained_layout=True)
 eixos.xaxis.set_major_locator(locator)
@@ -93,7 +105,6 @@ for k in carteira.index:
             # Depois de plotar os dados, eles somem da memoria pq na próxima iteração a lista e o ativo['Date'] são resetados
             eixos.plot(df['Date'],ValoresAbsolutos, label=acao)
             #eixos.plot(ativo['Date'], ValoresPercentuais, label=acao)
-
 
             # teste1.append(df['Date'])
             # teste2.append(ValoresAbsolutos)
