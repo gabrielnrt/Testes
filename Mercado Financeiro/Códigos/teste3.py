@@ -7,7 +7,6 @@ from numpy import array, shape
 from pylab import plot, show, figure, xlabel, ylabel, legend, grid, xticks, plot_date, title, subplots
 from matplotlib.dates import AutoDateLocator, ConciseDateFormatter
 
-print('oi')
 
 locator = AutoDateLocator()
 formatter = ConciseDateFormatter(locator)
