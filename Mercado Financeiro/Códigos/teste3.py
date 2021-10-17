@@ -46,15 +46,15 @@ def LegendaPercentual():
 print('Para Gabriel, digite 1 \nPara Carolina, digite 2')
 digito = int(input())
 if digito==1:
-    pessoa = 'CarteiraGabriel.csv'
+    pessoa = 'Gabriel.csv'
 else:
-    pessoa = 'CarteiraCarolina.csv'
+    pessoa = 'Carolina.csv'
 
 
 
 caminho1 = '/home/gabriel/Github/gabrielnrt/Testes/'+'Mercado Financeiro'+'/Arquivos/'+pessoa
 
-carteira = read_csv(caminho1, delimiter='\t')
+carteira = read_csv(caminho1, delimiter='\t', decimal = ',')
 carteira['Data da Aplicação'] = to_datetime(carteira['Data da Aplicação'], dayfirst=True)
 
 
@@ -77,7 +77,7 @@ for k in carteira.index:
     # Isso vai servir de chave, só que para as datas
     DataComparativa = carteira.loc[k]['Data da Aplicação']
 
-    acao = carteira.loc[k]['Renda Variável']
+    acao = carteira.loc[k]['Ativo']
     chave = acao + '.SA.csv'
 
     for arquivo in ListaDeArquivos:
@@ -132,7 +132,7 @@ for k in carteira.index:
     # Isso vai servir de chave, só que para as datas
     DataComparativa = carteira.loc[k]['Data da Aplicação']
 
-    acao = carteira.loc[k]['Renda Variável']
+    acao = carteira.loc[k]['Ativo']
     chave = acao + '.SA.csv'
 
     for arquivo in ListaDeArquivos:
