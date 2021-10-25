@@ -3,7 +3,7 @@
 # Parte 1: Configurar Python
 
 sudo apt update
-sudo apt install python3-dev (se o pip não estiver instalado, é só fazer: sudo apt install python3-pip python3-dev)
+sudo apt install python3-dev #(se o pip não estiver instalado, é só fazer: sudo apt install python3-pip python3-dev)
 
 
 
