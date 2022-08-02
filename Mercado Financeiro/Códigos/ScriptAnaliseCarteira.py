@@ -15,8 +15,14 @@ char = input('Você possui uma carteira em .csv pronta? [s/n] ')
 
 if char == 's':
     arquivo = input('Digite o nome do arquivo incluindo o .csv: ')
+
     separador = input('Digite o caractere que separa as colunas: ')
-    carteira = read_csv(arquivo, sep = separador)
+
+    dec = input('Digite o caractere de decimal: ')
+
+    carteira = read_csv(arquivo,
+                        sep = separador,
+                        decimal = dec)
 else:
     Ativos = []
     Quantidades = []
@@ -34,6 +40,13 @@ else:
         Fechas.append(input('Digite a data da compra no formato dd/mm/aaaa: '))
 
         char = input('Gostaria de inserir mais uma compra na carteira? [s/n]: ')
+        print()
 
         if char == 'n':
             lampada = False
+            carteira = DataFrame({'Ativo':Ativos,
+                                  'Quantidade':Quantidades,
+                                  'Compra (R$)':Precos,
+                                  'Data da Compra':Fechas})
+
+print(carteira)
