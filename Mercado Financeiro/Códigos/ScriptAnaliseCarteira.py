@@ -31,7 +31,7 @@ else:
 
     lampada = True
     while lampada:
-        Ativos.append(input('Digite o código do ativo: '))
+        Ativos.append(input('\nDigite o código do ativo: '))
 
         Quantidades.append(int(input('Digite a quantidade comprada: ')))
 
@@ -39,8 +39,7 @@ else:
 
         Fechas.append(input('Digite a data da compra no formato dd/mm/aaaa: '))
 
-        char = input('Gostaria de inserir mais uma compra na carteira? [s/n]: ')
-        print()
+        char = input('\nGostaria de inserir mais uma compra na carteira? [s/n]: ')
 
         if char == 'n':
             lampada = False
