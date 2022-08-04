@@ -2,7 +2,14 @@
 # Importação das bibliotecas
 
 from pandas import DataFrame, read_csv
-from datetime import datetime
+from datetime import datetime, date
+from pandas_datareader import data as web
+
+
+#-----------------------------------------------------------
+# Contantes
+
+hoje = date.today()
 
 #-----------------------------------------------------------
 # Conversor de datas
@@ -11,13 +18,28 @@ def conversor(fecha):
     return datetime.strptime(fecha, '%d/%m/%Y')
 
 
+# Requisição API Yahoo
+
+def yahoo(ativo,tabela):
+
+    fechas = list( tabela['Data da Compra'] )
+
+    PrimeiraCompra = list[0]
+
+    cotacoes = web.DataReader(ativo + '.SA',
+                              data_source = 'yahoo',
+                              start = PrimeiraCompra,
+                              end = hoje)
+
+    return cotacoes
+
 #-------------------------------------------------------
 # Arquivos de entrada
 
-Ativos = []
-Quantidades = []
-Precos = []
-Fechas = []
+# Ativos = []
+# Quantidades = []
+# Precos = []
+# Fechas = []
 
 char = input('Você possui uma carteira em .csv pronta? [s/n] ')
 
@@ -63,4 +85,20 @@ else:
                                  parse_dates = ['Data da Compra'],
                                  date_parser = conversor)
 
-print(carteira)
+#-----------------------------------------------------------------------------------
+# Processamento de dados
+
+carteira.sort_values(by = 'Data da Compra',
+                     inplace = True)
+
+lista = list( set(carteira['Ativo']) )
+
+lista.sort()
+
+for nome in lista:
+
+     subcarteira = carteira.loc[ carteira['Ativo'] == nome ]
+
+     historico = yahoo(nome,subcarteira)
+
+     print(historico)
