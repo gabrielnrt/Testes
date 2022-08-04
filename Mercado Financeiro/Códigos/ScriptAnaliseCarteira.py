@@ -2,6 +2,14 @@
 # Importação das bibliotecas
 
 from pandas import DataFrame, read_csv
+from datetime import datetime
+
+#-----------------------------------------------------------
+# Conversor de datas
+
+def conversor(fecha):
+    return datetime.strptime(fecha, '%d/%m/%Y')
+
 
 #-------------------------------------------------------
 # Arquivos de entrada
@@ -22,7 +30,9 @@ if char == 's':
 
     carteira = read_csv(arquivo,
                         sep = separador,
-                        decimal = dec)
+                        decimal = dec,
+                        parse_dates = ['Data da Compra'],
+                        date_parser = conversor)
 else:
     Ativos = []
     Quantidades = []
@@ -43,9 +53,14 @@ else:
 
         if char == 'n':
             lampada = False
-            carteira = DataFrame({'Ativo':Ativos,
-                                  'Quantidade':Quantidades,
-                                  'Compra (R$)':Precos,
-                                  'Data da Compra':Fechas})
+
+            dicionario = {'Ativo':Ativos,
+                          'Quantidade':Quantidades,
+                          'Compra (R$)':Precos,
+                          'Data da Compra':Fechas}
+
+            carteira = DataFrame(dicionario,
+                                 parse_dates = ['Data da Compra'],
+                                 date_parser = conversor)
 
 print(carteira)
