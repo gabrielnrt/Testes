@@ -4,7 +4,7 @@
 from pandas import DataFrame, read_csv
 from datetime import datetime, date
 from pandas_datareader import data as web
-
+from numpy import average
 
 #-----------------------------------------------------------
 # Contantes
@@ -32,6 +32,45 @@ def yahoo(ativo,tabela):
                               end = hoje)
 
     return cotacoes
+
+# Função que retorna uma lista que é a soma acumulada da lista de entrada
+
+def Soma(subcarteira):
+    lista_antiga = list(subcarteira['Quantidade'])
+
+    lista_nova = []
+    for indice in range(0, len(lista_antiga)):
+        if indice == 0:
+            lista_nova.append(lista_antiga[indice])
+        else:
+            lista_nova.append( lista_antiga[indice] + lista_nova[indice - 1] )
+
+    return lista_nova
+
+# Lista de médias ponderadas
+# TESTAR ESSA FUNÇÃO
+
+def Media(subcarteira):
+    resultado = []
+
+    valores = list(subcarteira['Compra (R$)'])
+    pesos = list(subcarteira['Quantidade'])
+
+    v_parcial = []
+    p_parcial = []
+
+    for indice in range(0, len(valores)): # poderia ser len(pesos) também
+        v_parcial.append(valores[indice])
+        p_parcial.append(pesos[indice])
+
+        media = average(a = v_parcial,
+                        weights = p_parcial)
+
+        resultado.append(media)
+
+    return resultado
+
+
 
 #-------------------------------------------------------
 # Arquivos de entrada
@@ -99,6 +138,15 @@ for nome in lista:
 
      subcarteira = carteira.loc[ carteira['Ativo'] == nome ]
 
-     historico = yahoo(nome,subcarteira)
+     subcarteira = subcarteira.reset_index(drop = True, inplace = False)
+
+     subcarteira['Q_k'] = Soma(subcarteira)
+
+     subcarteira['X_k'] = Media(subcarteira)
+
+     df = yahoo(nome,subcarteira)
+
+     df.drop(columns = ['High', 'Low', 'Open', 'Volume', 'Adj Close'],
+             inplace = True)
 
      print(historico)
