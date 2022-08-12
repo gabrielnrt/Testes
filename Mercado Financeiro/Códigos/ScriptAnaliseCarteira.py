@@ -4,7 +4,7 @@
 from pandas import DataFrame, read_csv
 from datetime import datetime, date
 from pandas_datareader import data as web
-from numpy import average
+from numpy import average, zeros, array
 from matplotlib.pyplot import subplots,show
 
 from pandas.plotting import register_matplotlib_converters
@@ -30,7 +30,7 @@ def yahoo(ativo,tabela):
 
     fechas = list( tabela['Data da Compra'] )
 
-    PrimeiraCompra = list[0]
+    PrimeiraCompra = fechas[0]
 
     cotacoes = web.DataReader(ativo + '.SA',
                               data_source = 'yahoo',
@@ -197,6 +197,14 @@ lista = list( set(carteira['Ativo']) )
 
 lista.sort()
 
+UltimaFecha = carteira.iloc[-1]['Data da Compra']
+
+ValoresInvestidos = []
+
+ColunaFinal = zeros(len(df.loc[UltimaFecha:].index))
+
+
+
 for nome in lista:
 
      subcarteira = carteira.loc[ carteira['Ativo'] == nome ]
@@ -219,3 +227,23 @@ for nome in lista:
      df['Variação Percentual'] = (df['Close'] / df['X_k']) -1
 
      graficos(df,nome)
+
+     #-------------------------------------------------------------------------------------------
+
+     subcarteira['Valor Investido (R$)'] = subcarteira['Quantidade'] * subcarteira['Compra (R$)']
+
+     ValoresInvestidos.append(sum(subcarteira['Valor Investido (R$)']))
+
+     ColunaFinal = ColunaFinal + array(df.loc[UltimaFecha:]['Variação Total (R$)'])
+
+
+TotalInvestido = sum(ValoresInvestidos)
+
+DICIONARIO = {'Variação Total (R$)':ColunaFinal}
+
+novatabela = DataFrame(data = DICIONARIO,
+                       index = df.loc[UltimaFecha:].index)
+
+novatabela['Variação Percentual'] = novatabela['Variação Total (R$)']/TotalInvestido
+
+graficos(novatabela,'Carteira Teste')
